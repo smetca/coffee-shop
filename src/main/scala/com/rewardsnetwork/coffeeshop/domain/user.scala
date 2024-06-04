@@ -1,0 +1,32 @@
+package com.rewardsnetwork.coffeeshop.domain
+
+import doobie.*
+import doobie.implicits.*
+import doobie.util.meta.Meta
+
+object user {
+
+  final case class User(
+      email: String,
+      hashedPassword: String,
+      firstName: Option[String],
+      lastName: Option[String],
+      role: Role
+  )
+
+  final case class NewUserInfo(
+      email: String,
+      password: String,
+      firstName: Option[String],
+      lastName: Option[String],
+  )
+
+  enum Role {
+    case ADMIN, SERVER
+  }
+
+  object Role {
+    given metaRole: Meta[Role] =
+      Meta[String].timap[Role](Role.valueOf)(_.toString)
+  }
+}
